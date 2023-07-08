@@ -24,9 +24,8 @@ int main() {
 
     wavefront_aligner_t* const wf_aligner = wavefront_aligner_new(&attr);
     wavefront_align(wf_aligner, pattern, strlen(pattern), text, strlen(text));
-    cigar_print_pretty(stderr,
-      pattern,strlen(pattern),text,strlen(text),
-      wf_aligner->cigar,wf_aligner->mm_allocator);
+    cigar_print_pretty(stderr, wf_aligner->cigar,
+      pattern,strlen(pattern),text,strlen(text));
 
     fprintf(stderr,"Alignment Score %d\n",wf_aligner->cigar->score);
 
