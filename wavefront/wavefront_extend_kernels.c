@@ -42,10 +42,15 @@ FORCE_INLINE wf_offset_t wavefront_extend_matches_packed_kernel(
   // Fetch pattern/text blocks
   uint64_t* pattern_blocks = (uint64_t*)(wf_aligner->sequences.pattern+WAVEFRONT_V(k,offset));
   uint64_t* text_blocks = (uint64_t*)(wf_aligner->sequences.text+WAVEFRONT_H(k,offset));
+  int v_off = WAVEFRONT_V(k,offset);
+  int h_off = WAVEFRONT_H(k,offset);
+  fprintf(stderr, "wavefront_extend_matches_packed_kernel v_off/h_off: %i/%i\n",v_off, h_off);
   fprintf(stderr, "wavefront_extend_matches_packed_kernel wf_aligner->sequences.pattern %p\n", wf_aligner->sequences.pattern);
   fprintf(stderr, "wavefront_extend_matches_packed_kernel wf_aligner->sequences.text %p\n", wf_aligner->sequences.text);
   fprintf(stderr, "wavefront_extend_matches_packed_kernel pattern_blocks %p\n", pattern_blocks);
   fprintf(stderr, "wavefront_extend_matches_packed_kernel text_blocks %p\n", text_blocks);
+  fprintf(stderr, "wavefront_extend_matches_packed_kernel *pattern_blocks %" PRIu64 "\n", *pattern_blocks);
+  fprintf(stderr, "wavefront_extend_matches_packed_kernel *text_blocks %" PRIu64 "\n", *text_blocks);
   // Compare 64-bits blocks
   uint64_t cmp = *pattern_blocks ^ *text_blocks;
   fprintf(stderr, "wavefront_extend_matches_packed_kernel:1 offset %i\n", offset);
