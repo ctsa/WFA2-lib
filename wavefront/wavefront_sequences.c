@@ -172,6 +172,9 @@ void wavefront_sequences_init_ascii(
   wf_sequences->text_begin = 0;
   wf_sequences->text_length = text_length;
   wf_sequences->text_eos = wf_sequences->text[text_length];
+  fprintf(stderr, "wavefront_sequences_init_ascii wf_sequences.pattern %p\n", wf_sequences.pattern);
+  fprintf(stderr, "wavefront_sequences_init_ascii wf_sequences.text %p\n", wf_sequences.text);
+
 }
 void wavefront_sequences_init_lambda(
     wavefront_sequences_t* const wf_sequences,
