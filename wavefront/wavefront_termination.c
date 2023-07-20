@@ -123,6 +123,7 @@ FORCE_NO_INLINE bool wavefront_termination_endsfree(
   const int pattern_length = sequences->pattern_length;
   const int text_length = sequences->text_length;
   // Check ends-free reaching boundaries
+  fprintf(stderr, "offset %i\n", offset);
   const int h_pos = WAVEFRONT_H(k,offset);
   const int v_pos = WAVEFRONT_V(k,offset);
   fprintf(stderr, "text_length %i\n", text_length);

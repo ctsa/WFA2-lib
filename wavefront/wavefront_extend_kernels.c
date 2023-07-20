@@ -116,9 +116,11 @@ FORCE_NO_INLINE bool wavefront_extend_matches_packed_endsfree(
     wf_offset_t offset = offsets[k];
     if (offset == WAVEFRONT_OFFSET_NULL) continue;
     // Extend offset
+    fprintf(stderr, "wavefront_extend_matches_packed_endsfree:1 offset %i\n", offset);
     offset = wavefront_extend_matches_packed_kernel(wf_aligner,k,offset);
     offsets[k] = offset;
     // Check ends-free reaching boundaries
+    fprintf(stderr, "wavefront_extend_matches_packed_endsfree:2 offset %i\n", offset);
     if (wavefront_termination_endsfree(wf_aligner,mwavefront,score,k,offset)) {
       return true; // Quit (we are done)
     }
