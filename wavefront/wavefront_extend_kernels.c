@@ -56,7 +56,9 @@ FORCE_INLINE wf_offset_t wavefront_extend_matches_packed_kernel(
   }
   // Count equal characters
   const int equal_right_bits = __builtin_ctzl(cmp);
+  fprintf(stderr, "wavefront_extend_matches_packed_kernel equal_right_bits %i\n", equal_right_bits);
   const int equal_chars = DIV_FLOOR(equal_right_bits,8);
+  fprintf(stderr, "wavefront_extend_matches_packed_kernel equal_chars %i\n", equal_chars);
   fprintf(stderr, "wavefront_extend_matches_packed_kernel:2 offset %i\n", offset);
   offset += equal_chars;
   // Return extended offset
