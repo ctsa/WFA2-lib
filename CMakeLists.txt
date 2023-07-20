@@ -27,6 +27,7 @@ option(OPENMP "Enable OpenMP" OFF) # enables WFA_PARALLEL
 option(PROFILING "Enable profiling" OFF)
 option(ASAN "Use address sanitiser" OFF)
 option(EXTRA_FLAGS "Add optimization flags for C/C++ compiler" OFF)
+option(CXX_BINDING_LIB "Build and install C++ bindings" ON)
 
 # include(CheckIPOSupported) # adds lto
 # check_ipo_supported(RESULT ipo_supported OUTPUT output)
@@ -160,25 +161,27 @@ endif(OPENMP)
 
 # ---- C++ binding library
 
-set(wfa2cpp_SOURCE
-  bindings/cpp/WFAligner.cpp
-)
-file(GLOB CPP_INCLUDES
-  bindings/cpp/*.h*
+if(CXX_BINDING_LIB)
+  set(wfa2cpp_SOURCE
+    bindings/cpp/WFAligner.cpp
   )
-add_library(wfa2cpp_static STATIC ${wfa2cpp_SOURCE})
-add_library(wfa2cpp SHARED ${wfa2cpp_SOURCE})
-set_target_properties(wfa2cpp PROPERTIES SOVERSION 0)
-set_target_properties(wfa2cpp_static PROPERTIES OUTPUT_NAME wfa2cpp)
-target_link_libraries(wfa2cpp PUBLIC wfa2)
-target_link_libraries(wfa2cpp_static PUBLIC wfa2_static)
-add_library(wfa2::wfa2cpp ALIAS wfa2cpp)
-add_library(wfa2::wfa2cpp_static ALIAS wfa2cpp_static)
+  file(GLOB CPP_INCLUDES
+    bindings/cpp/*.h*
+  )
+  add_library(wfa2cpp_static STATIC ${wfa2cpp_SOURCE})
+  add_library(wfa2cpp SHARED ${wfa2cpp_SOURCE})
+  set_target_properties(wfa2cpp PROPERTIES SOVERSION 0)
+  set_target_properties(wfa2cpp_static PROPERTIES OUTPUT_NAME wfa2cpp)
+  target_link_libraries(wfa2cpp PUBLIC wfa2)
+  target_link_libraries(wfa2cpp_static PUBLIC wfa2_static)
+  add_library(wfa2::wfa2cpp ALIAS wfa2cpp)
+  add_library(wfa2::wfa2cpp_static ALIAS wfa2cpp_static)
 
-if(OPENMP)
-  target_link_libraries(wfa2cpp_static PRIVATE OpenMP::OpenMP_CXX)
-  target_link_libraries(wfa2cpp PRIVATE OpenMP::OpenMP_CXX)
-endif(OPENMP)
+  if(OPENMP)
+    target_link_libraries(wfa2cpp_static PRIVATE OpenMP::OpenMP_CXX)
+    target_link_libraries(wfa2cpp PRIVATE OpenMP::OpenMP_CXX)
+  endif(OPENMP)
+endif()
 
 # ---- Get version
 
@@ -220,7 +223,9 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
   install(FILES ${ALIGNMENT_INCLUDES} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/wfa2lib/alignment)
   install(FILES ${SYSTEM_INCLUDES} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/wfa2lib/system)
 
-  install(TARGETS wfa2cpp ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
-  install(TARGETS wfa2cpp_static ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+  if(CXX_BINDING_LIB)
+    install(TARGETS wfa2cpp ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+    install(TARGETS wfa2cpp_static ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+  endif()
   install(FILES ${CPP_INCLUDES} DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}/wfa2lib/bindings/cpp)
 endif()
