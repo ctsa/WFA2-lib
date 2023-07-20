@@ -125,6 +125,8 @@ FORCE_NO_INLINE bool wavefront_termination_endsfree(
   // Check ends-free reaching boundaries
   const int h_pos = WAVEFRONT_H(k,offset);
   const int v_pos = WAVEFRONT_V(k,offset);
+  fprintf(stderr, "text_length %i\n", text_length);
+  fprintf(stderr, "h_pos %i\n", h_pos);
   if (h_pos >= text_length) { // Text is aligned
     // Is Pattern end-free?
     const int pattern_left = pattern_length - v_pos;
