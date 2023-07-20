@@ -89,11 +89,14 @@ void wavefront_sequences_init_copy(
     const bool reverse) {
   // Copy sequence
   if (reverse) {
+    fprintf(stderr, "wavefront_sequences_init_copy reverse\n");
+
     int i;
     for (i=0;i<sequence_length;i++) {
       buffer_dst[i] = sequence[sequence_length-1-i];
     }
   } else {
+    fprintf(stderr, "wavefront_sequences_init_copy forward\n");
     memcpy(buffer_dst,sequence,sequence_length);
   }
   // Add end padding
@@ -151,9 +154,11 @@ void wavefront_sequences_init_ascii(
   // Allocate buffers
   wavefront_sequences_init_allocate(wf_sequences,pattern_length,text_length);
   // Copy internal sequences
+  fprintf(stderr, "init pattern, pattern_length %i\n", pattern_length);
   wavefront_sequences_init_copy(wf_sequences->pattern_buffer,
       pattern,pattern_length,WF_SEQUENCES_PADDING,WF_SEQUENCES_PATTERN_EOS,reverse);
   wf_sequences->pattern_buffer_length = pattern_length;
+  fprintf(stderr, "init text, pattern_length %i\n", text_length);
   wavefront_sequences_init_copy(wf_sequences->text_buffer,
       text,text_length,WF_SEQUENCES_PADDING,WF_SEQUENCES_TEXT_EOS,reverse);
   wf_sequences->text_buffer_length = text_length;
