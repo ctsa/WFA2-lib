@@ -29,7 +29,12 @@
  * DESCRIPTION: WFA module for the "extension" of exact matches
  */
 
+#ifdef __APPLE__
+#include <machine/endian.h>
+#else
 #include <endian.h>
+#endif
+
 
 #include "wavefront_extend_kernels.h"
 #include "wavefront_termination.h"
